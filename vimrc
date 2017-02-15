@@ -20,18 +20,15 @@ Plugin 'powerman/vim-plugin-ruscmd'
 Plugin 'vim-scripts/LustyJuggler'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-git'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'ervandew/supertab'
 Plugin 'digitaltoad/vim-pug'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'jaywilliams/vim-vwilight'
 
 " Gui Plugins
 if has("gui_running")
   Plugin 'scrooloose/syntastic'
-  " Plugin 'Valloric/YouCompleteMe'
 endif
 
 " All of your Plugins must be added before the following line

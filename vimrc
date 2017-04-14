@@ -16,8 +16,8 @@ Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'drn/zoomwin-vim'
 Plugin 'rking/ag.vim'
 Plugin 'wincent/command-t'
-Plugin 'powerman/vim-plugin-ruscmd'
-Plugin 'vim-scripts/LustyJuggler'
+" Plugin 'powerman/vim-plugin-ruscmd'
+Plugin 'sjbach/lusty'
 Plugin 'ConradIrwin/vim-bracketed-paste'
 Plugin 'tpope/vim-eunuch'
 Plugin 'tpope/vim-git'
@@ -25,6 +25,8 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'ervandew/supertab'
 Plugin 'digitaltoad/vim-pug'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'mxw/vim-jsx'
+Plugin 'mhartington/oceanic-next'
 
 " Gui Plugins
 if has("gui_running")
@@ -50,18 +52,25 @@ let NERDTreeQuitOnOpen=1
 set guioptions-=L
 " autocmd VimEnter * NERDTree
 
+"OceanicNext color
+if (has("termguicolors"))
+  set termguicolors
+endif
+colorscheme OceanicNext
 
 " Solarized colors
 "let g:solarized_termcolors=256    "default value is 16
 let g:solarized_visibility="low"    "default value is normal
 let g:solarized_contrast = "normal"
 syntax enable
-colorscheme solarized
+" colorscheme solarized
 set background=dark
 
 " ZoomWin configuration
 map <Leader><Leader> :ZoomWin<CR>
 
+
+language en_US                " sets the language of the messages / ui (vim)
 
 "Syntastic
 set statusline+=%#warningmsg#
@@ -76,18 +85,24 @@ let g:syntastic_check_on_wq = 0
 let g:syntastic_error_symbol = "✗"
 let g:syntastic_warning_symbol = "⚠"
 
+" https://github.com/jaxbot/syntastic-react
+let g:syntastic_javascript_checkers = ['eslint']
+
 " CommandT
 let g:CommandTMaxHeight=20
 " refresh command-t on \r
 map <Leader>r :CommandTFlush<CR>
+set wildignore=/tmp/*
+
 
 " LustyJuggler
 map <Leader>s :LustyJuggler<CR>
 
 
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 
-set number
+
 set ruler
 syntax enable
 
@@ -159,3 +174,4 @@ set listchars=eol:¬,tab:→\ ,nbsp:_,precedes:(,extends:),trail:·
 " Set .as for Actionscript
 autocmd BufNewFile,BufRead *.as set filetype=actionscript
 
+set number

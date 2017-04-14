@@ -1,23 +1,36 @@
 " Font
-" set guifont=InputMono\ Light:h11
-" set guifont=Menlo:h11
-" set linespace=1
+set guifont=SF\ Mono\ Regular:h12
 
 function ToggleFont()
-  let w:small_font = exists('w:small_font') ? !w:small_font : 0
-  if w:small_font
-    set guifont=Menlo:h11
-    set linespace=0
-  else
-    set guifont=Menlo:h10
-    set linespace=1
+  let w:font_variant = exists('w:font_variant') ? (w:font_variant + 1) %3 : 0
+  if w:font_variant == 0
+    colorscheme OceanicNext
+  elseif w:font_variant == 1
+    let g:solarized_contrast="high"
+    set background=dark
+    colorscheme solarized
+  elseif w:font_variant == 2
+    let g:solarized_contrast="normal"
+    set background=light
+    colorscheme solarized
   endif
 endfunction
 call ToggleFont()
 map <F6> :call ToggleFont()<CR>
 
+
+
+" Solarized colors
+"let g:solarized_termcolors=256    "default value is 16
+" let g:solarized_visibility="low"    "default value is normal
+" let g:solarized_contrast = "normal"
+" syntax enable
+" colorscheme solarized
+" set background=dark
+
+
 "Solarized
-set background=light
-call togglebg#map("<F5>")
+"set background=light
+"call togglebg#map("<F5>")
 
 

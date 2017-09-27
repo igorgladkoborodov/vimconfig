@@ -5,33 +5,79 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+  " Plugins manager
+  Plugin 'VundleVim/Vundle.vim'
 
-" My bundles
-Plugin 'scrooloose/nerdtree'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'drn/zoomwin-vim'
-Plugin 'rking/ag.vim'
-Plugin 'wincent/command-t'
-" Plugin 'powerman/vim-plugin-ruscmd'
-Plugin 'sjbach/lusty'
-Plugin 'ConradIrwin/vim-bracketed-paste'
-Plugin 'tpope/vim-eunuch'
-Plugin 'tpope/vim-git'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'ervandew/supertab'
-Plugin 'digitaltoad/vim-pug'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'mxw/vim-jsx'
-Plugin 'mhartington/oceanic-next'
+  " Show tree on Leader a
+  Plugin 'scrooloose/nerdtree'
 
-" Gui Plugins
-if has("gui_running")
-  Plugin 'scrooloose/syntastic'
-endif
+  " gc for comment
+  Plugin 'tomtom/tcomment_vim'
+
+  " Leader ig to show indent
+  Plugin 'nathanaelkane/vim-indent-guides'
+
+  " Double leader to zoom
+  " Plugin 'drn/zoomwin-vim'
+
+  " Leader f for search
+  Plugin 'mileszs/ack.vim'
+
+  " Fuzzy finder on leader t
+  " Plugin 'wincent/command-t'
+  " Try CtrlP instead
+  Plugin 'ctrlpvim/ctrlp.vim'
+
+  " Plugin 'powerman/vim-plugin-ruscmd'
+
+  " Buffer navigation
+  Plugin 'sjbach/lusty'
+
+  " Fix copypaste
+  Plugin 'ConradIrwin/vim-bracketed-paste'
+
+  " File utils (:Rename, :Move, :Delete etc)
+  Plugin 'tpope/vim-eunuch'
+
+  " Git diff after save
+  Plugin 'airblade/vim-gitgutter'
+
+  " Autocomplete on tab
+  " Plugin 'ervandew/supertab'
+
+  " Autocomplete
+  " https://github.com/Valloric/YouCompleteMe/#mac-os-x
+  Plugin 'Valloric/YouCompleteMe'
+
+  " Javascript & JSX syntax
+  Plugin 'pangloss/vim-javascript'
+  Plugin 'mxw/vim-jsx'
+
+  " Coffescript syntax
+  Plugin 'kchmck/vim-coffee-script'
+
+  " Ruby
+  Plugin 'vim-ruby/vim-ruby'
+  Plugin 'tpope/vim-rails'
+
+  " Color Scheme
+  Plugin 'altercation/vim-colors-solarized'
+  " Plugin 'kristijanhusak/vim-hybrid-material'
+  " Plugin 'nightsense/vim-crunchbang'
+
+  " Pretty status line
+  Plugin 'vim-airline/vim-airline'
+  Plugin 'vim-airline/vim-airline-themes'
+
+  " Check syntacs
+   " Plugin 'vim-syntastic/syntastic'
+  Plugin 'w0rp/ale'
+
+   " Working with pair symbols
+   Plugin 'tpope/vim-surround'
+
+   " Graphical undo tree
+   Plugin 'sjl/gundo.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -45,65 +91,197 @@ filetype plugin indent on    " required
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 
+" ====================== PLUGINS SETTINGS =================
+" ===============
 
+function ToggleFont()
+  let w:font_variant = exists('w:font_variant') ? (w:font_variant + 1)%2 : 1
+  if w:font_variant == 0
+    set guifont=SF\ Mono\ Regular:h12
+    set background=light
+    let g:solarized_contrast="normal"
+    colorscheme solarized
+    hi SyntasticErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  guibg=#eee8d5  gui=none
+    hi SyntasticWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=none
+    hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  guibg=#eee8d5  gui=none
+    hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=none
+  elseif w:font_variant == 1
+    set guifont=SF\ Mono\ Light:h12
+    let g:solarized_contrast="high"
+    set background=dark
+    colorscheme solarized
+    hi SyntasticErrorSign ctermfg=10  ctermbg=0  guifg=#ff2600  guibg=#073642  gui=none
+    hi SyntasticWarningSign ctermfg=10  ctermbg=0  guifg=#fffb00  guibg=#073642  gui=none
+    hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#ff2600  guibg=#073642  gui=none
+    hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#fffb00  guibg=#073642  gui=none
+
+  " elseif w:font_variant == 2
+  "   set background=dark
+  "   colorscheme hybrid_material
+  " elseif w:font_variant == 2
+  "   set background=dark
+  "   colorscheme crunchbang
+  "   hi  Cursor                                  ctermfg=8  ctermbg=10  guifg=#2e3436  guibg=#bfbfbf  gui=NONE
+  "   hi  MatchParen                              cterm=NONE  ctermfg=1  ctermbg=10  guifg=#2e3436  guibg=#bf9277  gui=NONE
+  "   hi  NonText                                 cterm=NONE  ctermfg=11  guifg=#555555  gui=NONE
+  "   hi  Comment                                 ctermfg=10  guifg=#767676  gui=NONE
+  "   hi  Todo                                    ctermfg=10  guifg=#bf9277  gui=NONE
+  "   hi  Normal                                  ctermfg=12  ctermbg=8  guifg=#bfbfbf  guibg=#20282a  gui=NONE
+  "   hi  VertSplit                               ctermfg=11  ctermbg=11  guifg=#3b4245  guibg=#3b4245  gui=NONE
+  "   hi  LineNr                                  ctermfg=10  ctermbg=0  guifg=#999999  guibg=#1f2325  gui=NONE
+  "
+  "   hi SyntasticErrorSign ctermfg=10  ctermbg=0  guifg=#FF0000  guibg=#3b4245  gui=none
+  "   hi SyntasticWarningSign ctermfg=10  ctermbg=0  guifg=#  guibg=#3b4245  gui=none
+  "
+  "   let g:airline_theme='base16'
+  endif
+endfunction
+
+" Solarized colors
+let g:enable_italic_font = 0
+let g:enable_bold_font = 0
+
+let g:solarized_termcolors=16    "default value is 16
+let g:solarized_visibility="low"    "default value is normal
+let g:solarized_termtrans=1
+
+call ToggleFont()
+if has("gui_running")
+  call ToggleFont()
+  map <F6> :call ToggleFont()<CR>
+end
+
+" ============
+" Airline
+let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'z', 'error', 'warning' ] ]
+let g:airline#extensions#hunks#enabled = 0
+
+let g:airline#extensions#tabline#enabled = 1                 " Enable tabline
+let g:airline#extensions#tabline#show_tab_nr = 1             " Show tab number in tabs mode
+let g:airline#extensions#tabline#tab_nr_type = 1             " Only show tab number
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_buffers = 0            " Don't show buffers with single tab
+
+let g:airline#extensions#whitespace#enabled = 0              " Disable whitespace errors
+
+" Show compact mode indicators
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
+
+let g:airline_section_z = '%3p%% %3l/%L:%3v'             " Compact line numbers
+let g:airline_theme='base16'
+
+" ===============
 " NERD tree
 map <Leader>a :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen=1
 set guioptions-=L
 " autocmd VimEnter * NERDTree
 
-"OceanicNext color
-if (has("termguicolors"))
-  set termguicolors
-endif
-colorscheme OceanicNext
 
-" Solarized colors
-"let g:solarized_termcolors=256    "default value is 16
-let g:solarized_visibility="low"    "default value is normal
-let g:solarized_contrast = "normal"
-syntax enable
-" colorscheme solarized
-set background=dark
+" ===============
+" ZoomWin
+" map <Leader><Leader> :ZoomWin<CR>
 
-" ZoomWin configuration
-map <Leader><Leader> :ZoomWin<CR>
-
-
-language en_US                " sets the language of the messages / ui (vim)
-
+" ===============
 "Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+"
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 0
+" let g:syntastic_check_on_wq = 0
+"
+" let g:syntastic_error_symbol = "✗✗"
+" let syntastic_style_error_symbol = "✗✗"
+" let g:syntastic_warning_symbol = "!!"
+" let syntastic_style_warning_symbol = "!!"
+"
+" let g:syntastic_javascript_checkers = ['eslint']
+" let g:syntastic_ruby_checkers = ['rubocop', 'mri']
+"
 
-let g:syntastic_always_populate_loc_list = 0
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'ruby': ['rubocop', 'mri'],
+\}
 
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "⚠"
+let g:ale_sign_error = "✗✗"
+let g:ale_sign_warning = "!!"
 
-" https://github.com/jaxbot/syntastic-react
-let g:syntastic_javascript_checkers = ['eslint']
-
+" ===============
 " CommandT
-let g:CommandTMaxHeight=20
-" refresh command-t on \r
-map <Leader>r :CommandTFlush<CR>
-set wildignore=/tmp/*
+" let g:CommandTMaxHeight=20
+" map <Leader>r :CommandTFlush<CR>       " refresh command-t on \r
+" set wildignore+=*/tmp,*/node_modules
+
+" =============
+" CtrlP
+map <Leader>r :CtrlPClearCache<CR>
+map <Leader>t :CtrlP<CR>
+let g:ctrlp_max_files=0
+let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
+let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+set wildignore+=*/tmp,*/node_modules
 
 
+" Hide status line for CtrlP
+let g:ctrlp_buffer_func = {
+    \ 'enter': 'Function_Name_1',
+    \ 'exit':  'Function_Name_2',
+    \ }
+
+func! Function_Name_1()
+    set laststatus=0
+endfunc
+
+func! Function_Name_2()
+    set laststatus=2
+endfunc
+
+
+
+" ===============
 " LustyJuggler
 map <Leader>s :LustyJuggler<CR>
 
 
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+" ===============
+" The Silver Searcher
+" https://github.com/mileszs/ack.vim
+" https://robots.thoughtbot.com/faster-grepping-in-vim
+if executable('ag')
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
+" command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap <Leader>f :Ack!<Space>
 
 
+" =============
+" JSX
+let g:jsx_ext_required = 0    " Allow JSX in normal JS files
 
-set ruler
+" =====================
+" toggle gundo
+nnoremap <leader>u :GundoToggle<CR>
+
+
+" ================= GENERAL SETTINGS ===================
+language en_US                " sets the language of the messages / ui (vim)
+" set ruler                   " Info in the bottom right
 syntax enable
 
 set laststatus=2
@@ -112,32 +290,35 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 filetype plugin indent on       " load file type plugins + indentation
 
-"" Whitespace
-"set nowrap                      " don't wrap lines
+set wildmenu                    " visual autocomplete for command menu
+set lazyredraw                  " redraw only when we need to.
+
+" Whitespace
+"set nowrap                     " don't wrap lines
 set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 
-"" Searching
+" Searching
 set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
+set wrap                        " Wrap by default
 
-" Wrap by default
-set wrap
+" Folding
+set foldenable                  " enable folding " space open/closes folds
+set foldlevelstart=99
+set foldnestmax=10
+nnoremap <space> za
+set foldmethod=indent
 
 " Navigation on wrapped lines
 nmap <silent> j gj
 nmap <silent> k gk
 
-" pressing < or > will let you indent/unident selected lines
-vnoremap < <gv
-vnoremap > >gv
-
-" Don't require to save buffer on switch
-set hidden
+set hidden                      " Don't require to save buffer on switch
 
 " History size
 set history=5000
@@ -154,12 +335,27 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" ============================
+" Navigating tabs
+map <Leader><Leader> :tabe %<CR>                         " Leader Leader opens file in new tab
+map <leader>1 1gt                                        " Go to tab n on <Leader>n
+map <leader>2 2gt
+map <leader>3 3gt
+map <leader>4 4gt
+map <leader>5 5gt
+map <leader>6 6gt
+map <leader>7 7gt
+map <leader>8 8gt
+map <leader>9 8gt
+map <D-S-]> gt
+map <D-S-[> gT
+map ” :tabm -1<CR>              " Shit+Alt+] to move tab left
+map ’ :tabm +1<CR>              " Shit+Alt+[ to move tab right
+map <leader>[ :tabm -1<CR>              " Move tab left
+map <leader>] :tabm +1<CR>              " Move tab right
 
-" show current git branch on status line
-"set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
-
+" =======================
 " lusty explorer
 "let g:LustyExplorerSuppressRubyWarning = ""
 "nnoremap <silent> <D-u> :LustyBufferExplorer<CR>
@@ -167,6 +363,7 @@ set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
 
 set scrolloff=5
 
+" ======================
 " Invisible characters
 set list
 set listchars=eol:¬,tab:→\ ,nbsp:_,precedes:(,extends:),trail:·
@@ -175,3 +372,11 @@ set listchars=eol:¬,tab:→\ ,nbsp:_,precedes:(,extends:),trail:·
 autocmd BufNewFile,BufRead *.as set filetype=actionscript
 
 set number
+
+" ===================
+" Intent
+" pressing < or > will let you iunident selected lines
+vnoremap < <gv
+vnoremap > >gv
+
+

@@ -23,12 +23,9 @@ call vundle#begin()
   " Leader f for search
   Plugin 'mileszs/ack.vim'
 
-  " Fuzzy finder on leader t
-  " Plugin 'wincent/command-t'
-  " Try CtrlP instead
-  Plugin 'ctrlpvim/ctrlp.vim'
-
-  " Plugin 'powerman/vim-plugin-ruscmd'
+  " Find files on leader t
+  " https://github.com/wincent/command-t/blob/master/doc/command-t.txt
+  Plugin 'wincent/command-t'
 
   " Buffer navigation
   Plugin 'sjbach/lusty'
@@ -73,11 +70,17 @@ call vundle#begin()
    " Plugin 'vim-syntastic/syntastic'
   Plugin 'w0rp/ale'
 
-   " Working with pair symbols
-   Plugin 'tpope/vim-surround'
+  " Working with pair symbols
+  Plugin 'tpope/vim-surround'
 
-   " Graphical undo tree
-   Plugin 'sjl/gundo.vim'
+  " Graphical undo tree
+  Plugin 'sjl/gundo.vim'
+
+  " Make . (repeat) operator useful for plugins
+  Plugin 'tpope/vim-repeat.git'
+
+  " Show marks
+  Plugin 'kshenoy/vim-signature'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -114,26 +117,6 @@ function ToggleFont()
     hi SyntasticWarningSign ctermfg=10  ctermbg=0  guifg=#fffb00  guibg=#073642  gui=none
     hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#ff2600  guibg=#073642  gui=none
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#fffb00  guibg=#073642  gui=none
-
-  " elseif w:font_variant == 2
-  "   set background=dark
-  "   colorscheme hybrid_material
-  " elseif w:font_variant == 2
-  "   set background=dark
-  "   colorscheme crunchbang
-  "   hi  Cursor                                  ctermfg=8  ctermbg=10  guifg=#2e3436  guibg=#bfbfbf  gui=NONE
-  "   hi  MatchParen                              cterm=NONE  ctermfg=1  ctermbg=10  guifg=#2e3436  guibg=#bf9277  gui=NONE
-  "   hi  NonText                                 cterm=NONE  ctermfg=11  guifg=#555555  gui=NONE
-  "   hi  Comment                                 ctermfg=10  guifg=#767676  gui=NONE
-  "   hi  Todo                                    ctermfg=10  guifg=#bf9277  gui=NONE
-  "   hi  Normal                                  ctermfg=12  ctermbg=8  guifg=#bfbfbf  guibg=#20282a  gui=NONE
-  "   hi  VertSplit                               ctermfg=11  ctermbg=11  guifg=#3b4245  guibg=#3b4245  gui=NONE
-  "   hi  LineNr                                  ctermfg=10  ctermbg=0  guifg=#999999  guibg=#1f2325  gui=NONE
-  "
-  "   hi SyntasticErrorSign ctermfg=10  ctermbg=0  guifg=#FF0000  guibg=#3b4245  gui=none
-  "   hi SyntasticWarningSign ctermfg=10  ctermbg=0  guifg=#  guibg=#3b4245  gui=none
-  "
-  "   let g:airline_theme='base16'
   endif
 endfunction
 
@@ -215,8 +198,8 @@ set guioptions-=L
 "
 
 let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'ruby': ['rubocop', 'mri'],
+\ 'javascript': ['eslint'],
+\ 'ruby': ['rubocop', 'mri'],
 \}
 
 let g:ale_sign_error = "✗✗"
@@ -224,40 +207,44 @@ let g:ale_sign_warning = "!!"
 
 " ===============
 " CommandT
-" let g:CommandTMaxHeight=20
-" map <Leader>r :CommandTFlush<CR>       " refresh command-t on \r
-" set wildignore+=*/tmp,*/node_modules
+let g:CommandTMaxHeight=20
+
+" refresh command-t on \r
+map <Leader>r :CommandTFlush<CR>
+set wildignore+=*/tmp,*/node_modules
 
 " =============
 " CtrlP
-map <Leader>r :CtrlPClearCache<CR>
-map <Leader>t :CtrlP<CR>
-let g:ctrlp_max_files=0
-let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
-let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-set wildignore+=*/tmp,*/node_modules
+" map <Leader>r :CtrlPClearCache<CR>
+" map <Leader>t :CtrlP<CR>
+" let g:ctrlp_max_files=0
+" let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
+" let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" set wildignore+=*/tmp,*/node_modules
 
 
 " Hide status line for CtrlP
-let g:ctrlp_buffer_func = {
-    \ 'enter': 'Function_Name_1',
-    \ 'exit':  'Function_Name_2',
-    \ }
+" let g:ctrlp_buffer_func = {
+"   \ 'enter': 'Function_Name_1',
+"   \ 'exit':  'Function_Name_2',
+"   \ }
+"
+" func! Function_Name_1()
+"   set laststatus=0
+" endfunc
+"
+" func! Function_Name_2()
+"   set laststatus=2
+" endfunc
 
-func! Function_Name_1()
-    set laststatus=0
-endfunc
-
-func! Function_Name_2()
-    set laststatus=2
-endfunc
-
-
+" ==================
+" XkbSwitch
+let g:XkbSwitchEnabled = 1
+let g:XkbSwitchIMappings = ['ru']
 
 " ===============
 " LustyJuggler
 map <Leader>s :LustyJuggler<CR>
-
 
 " ===============
 " The Silver Searcher
@@ -337,8 +324,12 @@ map <C-l> <C-w>l
 
 " ============================
 " Navigating tabs
-map <Leader><Leader> :tabe %<CR>                         " Leader Leader opens file in new tab
-map <leader>1 1gt                                        " Go to tab n on <Leader>n
+
+" Leader Leader opens file in new tab
+map <Leader><Leader> :tabe %<CR> 
+
+" Go to tab n on <Leader>n
+map <leader>1 1gt                       
 map <leader>2 2gt
 map <leader>3 3gt
 map <leader>4 4gt
@@ -347,12 +338,16 @@ map <leader>6 6gt
 map <leader>7 7gt
 map <leader>8 8gt
 map <leader>9 8gt
+
 map <D-S-]> gt
 map <D-S-[> gT
-map ” :tabm -1<CR>              " Shit+Alt+] to move tab left
-map ’ :tabm +1<CR>              " Shit+Alt+[ to move tab right
-map <leader>[ :tabm -1<CR>              " Move tab left
-map <leader>] :tabm +1<CR>              " Move tab right
+
+" Shit+Alt+] to move tab left
+" Shit+Alt+[ to move tab right
+map ” :tabm -1<CR>
+map ’ :tabm +1<CR>
+" map <leader>[ :tabm -1<CR>              " Move tab left
+" map <leader>] :tabm +1<CR>              " Move tab right
 
 
 " =======================
@@ -379,4 +374,7 @@ set number
 vnoremap < <gv
 vnoremap > >gv
 
+
+" Turn on vim-repeat
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 

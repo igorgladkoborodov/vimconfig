@@ -73,14 +73,14 @@ call vundle#begin()
   " Working with pair symbols
   Plugin 'tpope/vim-surround'
 
-  " Graphical undo tree
-  Plugin 'sjl/gundo.vim'
-
   " Make . (repeat) operator useful for plugins
   Plugin 'tpope/vim-repeat.git'
 
   " Show marks
   Plugin 'kshenoy/vim-signature'
+
+  " Graphical undo tree
+  Plugin 'sjl/gundo.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -339,7 +339,5 @@ set number
 vnoremap < <gv
 vnoremap > >gv
 
-
 " Turn on vim-repeat
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
-

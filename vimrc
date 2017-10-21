@@ -202,10 +202,6 @@ set wildignore+=*/tmp,*/node_modules
 "   set laststatus=2
 " endfunc
 
-" ==================
-" XkbSwitch
-let g:XkbSwitchEnabled = 1
-let g:XkbSwitchIMappings = ['ru']
 
 " ===============
 " LustyJuggler

@@ -1,7 +1,7 @@
 function ToggleFont()
   let w:font_variant = exists('w:font_variant') ? (w:font_variant + 1)%2 : 1
   if w:font_variant == 0
-    set guifont=SF\ Mono\ Regular:h12
+    set guifont=InputMono\ Light:h11
     set background=light
     let g:solarized_contrast="normal"
     colorscheme solarized
@@ -10,7 +10,7 @@ function ToggleFont()
     hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  guibg=#eee8d5  gui=none
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=none
   elseif w:font_variant == 1
-    set guifont=SF\ Mono\ Light:h12
+    set guifont=InputMono\ Light:h11
     let g:solarized_contrast="high"
     set background=dark
     colorscheme solarized

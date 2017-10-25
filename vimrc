@@ -18,7 +18,8 @@ call vundle#begin()
   Plugin 'nathanaelkane/vim-indent-guides'
 
   " Double leader to zoom
-  " Plugin 'drn/zoomwin-vim'
+  Plugin 'drn/zoomwin-vim'
+  " regedarek/ZoomWin
 
   " Leader f for search
   Plugin 'mileszs/ack.vim'
@@ -96,6 +97,25 @@ filetype plugin indent on    " required
 
 " ====================== PLUGINS SETTINGS =================
 " ===============
+"
+" ===============
+" YouCompleteMe
+set completeopt-=preview
+let g:ycm_complete_in_comments = 1
+" let g:ycm_filepath_completion_use_working_dir = 1
+let g:ycm_collect_identifiers_from_comments_and_strings = 1
+" let g:ycm_collect_identifiers_from_tags_files = 1
+
+" function ToggleYouCompleteMeDir()
+"   if g:ycm_filepath_completion_use_working_dir == 0
+"     let g:ycm_filepath_completion_use_working_dir = 1
+"   else
+"     let g:ycm_filepath_completion_use_working_dir = 0
+"   endif
+" endfunction
+"
+" map <Leader>/ :call ToggleYouCompleteMeDir()<CR>
+"
 
 " ============
 " Airline
@@ -138,7 +158,7 @@ set guioptions-=L
 
 " ===============
 " ZoomWin
-" map <Leader><Leader> :ZoomWin<CR>
+map <Leader><Leader> :ZoomWin<CR>
 
 " ===============
 "Syntastic
@@ -283,14 +303,15 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+
 " ============================
 " Navigating tabs
 
 " Leader Leader opens file in new tab
-map <Leader><Leader> :tabe %<CR> 
+map <Leader>] :tabe %<CR>
 
 " Go to tab n on <Leader>n
-map <leader>1 1gt                       
+map <leader>1 1gt
 map <leader>2 2gt
 map <leader>3 3gt
 map <leader>4 4gt

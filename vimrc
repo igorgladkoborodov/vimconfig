@@ -83,6 +83,9 @@ call vundle#begin()
   " Graphical undo tree
   Plugin 'sjl/gundo.vim'
 
+  " Toggle loclist and quickfix by \l and \q
+  Plugin 'Valloric/ListToggle'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -151,10 +154,20 @@ let g:airline_theme='base16'
 " ===============
 " NERD tree
 map <Leader>a :NERDTreeToggle<CR>
-let NERDTreeQuitOnOpen=1
+let NERDTreeQuitOnOpen=0
 set guioptions-=L
 " autocmd VimEnter * NERDTree
+" 
+" How can I close vim if the only window left open is a NERDTree? 
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" How can I open NERDTree automatically when vim starts up on opening a directory?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+
+" How can I open a NERDTree automatically when vim starts up if no files were specified?
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " ===============
 " ZoomWin
@@ -190,13 +203,15 @@ let g:ale_sign_warning = "!!"
 
 let g:ale_lint_on_text_changed = "never" " only lint on file save
 
+let g:airline#extensions#ale#enabled = 1
+
 " ===============
 " CommandT
 let g:CommandTMaxHeight=20
 
 " refresh command-t on \r
 map <Leader>r :CommandTFlush<CR>
-set wildignore+=*/tmp,*/node_modules
+set wildignore+=*/tmp,*/node_modules,*/crane.static
 
 " =============
 " CtrlP

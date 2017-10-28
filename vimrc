@@ -373,3 +373,7 @@ vnoremap > >gv
 
 " Turn on vim-repeat
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+" Remove scrollbars in mvim
+set guioptions=
+

@@ -159,7 +159,7 @@ set guioptions-=L
 " autocmd VimEnter * NERDTree
 " 
 " How can I close vim if the only window left open is a NERDTree? 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " How can I open NERDTree automatically when vim starts up on opening a directory?
 autocmd StdinReadPre * let s:std_in=1
@@ -377,3 +377,11 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " Remove scrollbars in mvim
 set guioptions=
 
+" Autocreate parent directory on write
+augroup Mkdir
+  autocmd!
+  autocmd BufWritePre *
+    \ if !isdirectory(expand("<afile>:p:h")) |
+        \ call mkdir(expand("<afile>:p:h"), "p") |
+    \ endif
+augroup END

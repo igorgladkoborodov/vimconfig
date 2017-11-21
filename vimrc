@@ -154,6 +154,8 @@ let g:airline_theme='base16'
 " ===============
 " NERD tree
 map <Leader>a :NERDTreeToggle<CR>
+map <Leader>z :NERDTreeFind<CR>
+let NERDTreeMinimalUI=1
 let NERDTreeQuitOnOpen=0
 set guioptions-=L
 " autocmd VimEnter * NERDTree
@@ -194,7 +196,7 @@ map <Leader><Leader> :ZoomWin<CR>
 "
 
 let g:ale_linters = {
-\ 'javascript': ['eslint'],
+\ 'javascript': ['eslint', 'flow'],
 \ 'ruby': ['rubocop', 'mri'],
 \}
 
@@ -208,10 +210,20 @@ let g:airline#extensions#ale#enabled = 1
 " ===============
 " CommandT
 let g:CommandTMaxHeight=20
+let g:CommandTAlwaysShowDotFiles=1 " show hidden files
 
 " refresh command-t on \r
 map <Leader>r :CommandTFlush<CR>
-set wildignore+=*/tmp,*/node_modules,*/crane.static
+
+" Leader b for buffers list
+nnoremap <silent> <leader>b :CommandTMRU<CR>
+set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
+
+" enable esc for command-t in terminal
+" https://wincent.com/blog/tweaking-command-t-and-vim-for-use-in-the-terminal-and-tmux
+" if &term =~ "xterm" || &term =~ "screen"
+"   let g:CommandTCancelMap = ['<ESC>', '<C-c>']
+" end
 
 " =============
 " CtrlP
@@ -322,8 +334,9 @@ map <C-l> <C-w>l
 " ============================
 " Navigating tabs
 
-" Leader Leader opens file in new tab
+" Leader ] opens file in new tab
 map <Leader>] :tabe %<CR>
+" map <Leader>+ :tabnew<CR>
 
 " Go to tab n on <Leader>n
 map <leader>1 1gt
@@ -366,10 +379,18 @@ autocmd BufNewFile,BufRead *.as set filetype=actionscript
 set number
 
 " ===================
-" Intent
+" Indent
 " pressing < or > will let you iunident selected lines
 vnoremap < <gv
 vnoremap > >gv
+
+" =========
+" Show cursor line
+map <Leader>c :set cursorline!<CR>:set cursorcolumn!<CR>
+
+" ===========
+" Copy current dir to clipboard by \i
+map <Leader>i :let @*=expand("%")<CR>
 
 " Turn on vim-repeat
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
@@ -377,11 +398,8 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 " Remove scrollbars in mvim
 set guioptions=
 
-" Autocreate parent directory on write
-augroup Mkdir
-  autocmd!
-  autocmd BufWritePre *
-    \ if !isdirectory(expand("<afile>:p:h")) |
-        \ call mkdir(expand("<afile>:p:h"), "p") |
-    \ endif
-augroup END
+" Limit syntax for long lines to increase speed
+set synmaxcol=300
+
+" Enable mouse in terminal
+" set mouse=a

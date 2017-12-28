@@ -155,6 +155,7 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1
 " let g:airline_section_z = '%3p%% %3l/%L:%3v'             " Compact line numbers
 " let g:airline_theme='base16'
 
+" \   'lineinfo': '%l/%L:%v',
 set background=light
 let g:lightline = {
 \ 'colorscheme': 'solarized',
@@ -166,9 +167,14 @@ let g:lightline = {
 \   'left': [ ['relativepath'] ],
 \   'right': [ ]
 \ },
+\ 'tabline': {
+\   'left': [ [ 'tabs' ] ],
+\   'right': [ [ 'pwd', 'close' ] ]
+\ },
 \ 'component': {
-\   'lineinfo': '%3l/%L:%v',
-\   'relativepath': '%f%{&modified?" 💾":""}'
+\   'lineinfo': '%2l/%L %2v',
+\   'relativepath': '%f%{&modified?" 💾":""}',
+\   'pwd': systemlist('dirs')[0]
 \ },
 \ 'component_expand': {
 \   'linter_warnings': 'LightlineLinterWarnings',
@@ -193,6 +199,9 @@ let g:lightline = {
 \   't': 'TERMINAL',
 \ }
 \ }
+
+" let g:NERDTreeDirArrowExpandable = '📁'
+" let g:NERDTreeDirArrowCollapsible = '📂'
 
 function! LightlineLinterWarnings() abort
   let l:problems = ale#engine#GetLoclist(bufnr(''))
@@ -223,7 +232,8 @@ endfunction
 map <Leader>a :NERDTreeToggle<CR>
 map <Leader>z :NERDTreeFind<CR>
 let NERDTreeMinimalUI=1
-let NERDTreeQuitOnOpen=0
+let NERDTreeQuitOnOpen=1
+let g:NERDTreeWinPos="right"
 set guioptions-=L
 " autocmd VimEnter * NERDTree
 " 
@@ -338,7 +348,8 @@ let g:jsx_ext_required = 0    " Allow JSX in normal JS files
 
 " =====================
 " toggle gundo
-nnoremap <leader>u :GundoToggle<CR>
+nnoremap `u :GundoToggle<CR>
+nnoremap <Leader>u :GundoToggle<CR>
 
 
 " ================= GENERAL SETTINGS ===================
@@ -398,12 +409,12 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
-
 " ============================
 " Navigating tabs
 
 " Leader ] opens file in new tab
 map <Leader>] :tabe %<CR>
+map `] :tabe %<CR>
 " map <Leader>+ :tabnew<CR>
 
 " Go to tab n on <Leader>n
@@ -457,7 +468,8 @@ vnoremap > >gv
 map <Leader>c :set cursorline!<CR>:set cursorcolumn!<CR>
 
 " ===========
-" Copy current dir to clipboard by \i
+" Copy current filename to clipboard by `i
+map `i :let @*=expand("%")<CR>
 map <Leader>i :let @*=expand("%")<CR>
 
 " Turn on vim-repeat
@@ -485,3 +497,17 @@ vmap u <Nop>
 if filereadable(expand("~/.vimlocal"))
   source ~/.vimlocal
 endif
+
+" Make gf work for node custom root
+set path+=$PWD/**3
+
+" P in visual mode paste last yanked register
+vmap P "0p
+" `y moves last saved register to register 0 to use it with P on visual mode
+map `y :let @0=@"<CR>
+
+" Open vim in max width
+if has("gui_running")
+  set lines=999 columns=9999
+  " set fu
+end

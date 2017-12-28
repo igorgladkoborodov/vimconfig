@@ -15,6 +15,12 @@ function ToggleColors()
     hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  guibg=#eee8d5  gui=none
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=none
   endif
+
+  " Make lightline switch light/dark background
+  runtime autoload/lightline/colorscheme/solarized.vim
+  call lightline#init()
+  call lightline#colorscheme()
+  call lightline#update()
 endfunction
 
 function ToggleFont()
@@ -44,4 +50,3 @@ if has("gui_running")
   map <F5> :call ToggleFont()<CR>
   map <F6> :call ToggleColors()<CR>
 end
-

@@ -26,7 +26,9 @@ call vundle#begin()
 
   " Find files on leader t
   " https://github.com/wincent/command-t/blob/master/doc/command-t.txt
-  Plugin 'wincent/command-t'
+  " Plugin 'wincent/command-t'
+
+  Plugin 'ctrlpvim/ctrlp.vim'
 
   " Buffer navigation
   Plugin 'sjbach/lusty'
@@ -64,8 +66,9 @@ call vundle#begin()
   " Plugin 'nightsense/vim-crunchbang'
 
   " Pretty status line
-  Plugin 'vim-airline/vim-airline'
-  Plugin 'vim-airline/vim-airline-themes'
+  " Plugin 'vim-airline/vim-airline'
+  " Plugin 'vim-airline/vim-airline-themes'
+  Plugin 'itchyny/lightline.vim'
 
   " Check syntacs
    " Plugin 'vim-syntastic/syntastic'
@@ -122,34 +125,98 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
 " ============
 " Airline
-let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'z', 'error', 'warning' ] ]
-let g:airline#extensions#hunks#enabled = 0
+" let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'z', 'error', 'warning' ] ]
+" let g:airline#extensions#hunks#enabled = 0
+"
+" let g:airline#extensions#tabline#enabled = 0                 " Enable tabline
+" let g:airline#extensions#tabline#enabled = 1                 " Enable tabline
+" let g:airline#extensions#tabline#show_tab_nr = 1             " Show tab number in tabs mode
+" let g:airline#extensions#tabline#tab_nr_type = 1             " Only show tab number
+" let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#show_buffers = 0            " Don't show buffers with single tab
+"
+" let g:airline#extensions#whitespace#enabled = 0              " Disable whitespace errors
+"
+" " Show compact mode indicators
+" let g:airline_mode_map = {
+"     \ '__' : '-',
+"     \ 'n'  : 'N',
+"     \ 'i'  : 'I',
+"     \ 'R'  : 'R',
+"     \ 'c'  : 'C',
+"     \ 'v'  : 'V',
+"     \ 'V'  : 'V',
+"     \ '' : 'V',
+"     \ 's'  : 'S',
+"     \ 'S'  : 'S',
+"     \ '' : 'S',
+"     \ }
+"
+" let g:airline_section_z = '%3p%% %3l/%L:%3v'             " Compact line numbers
+" let g:airline_theme='base16'
 
-let g:airline#extensions#tabline#enabled = 1                 " Enable tabline
-let g:airline#extensions#tabline#show_tab_nr = 1             " Show tab number in tabs mode
-let g:airline#extensions#tabline#tab_nr_type = 1             " Only show tab number
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline#extensions#tabline#show_buffers = 0            " Don't show buffers with single tab
+set background=light
+let g:lightline = {
+\ 'colorscheme': 'solarized',
+\ 'active': {
+\   'left': [ [ 'mode', 'paste' ], ['relativepath'] ],
+\   'right': [ [ 'lineinfo' ], ['readonly', 'linter_warnings', 'linter_errors'] ]
+\ },
+\ 'inactive': {
+\   'left': [ ['relativepath'] ],
+\   'right': [ ]
+\ },
+\ 'component': {
+\   'lineinfo': '%3p%% %3l/%L:%3v',
+\   'relativepath': '%f%{&modified?" 💾":""}'
+\ },
+\ 'component_expand': {
+\   'linter_warnings': 'LightlineLinterWarnings',
+\   'linter_errors': 'LightlineLinterErrors',
+\ },
+\ 'component_type': {
+\   'readonly': 'error',
+\   'linter_warnings': 'error',
+\   'linter_errors': 'error'
+\ },
+\ 'mode_map': {
+\   'n' : '',
+\   'i' : '',
+\   'R' : 'REPLACE',
+\   'v' : '',
+\   'V' : '',
+\   "\<C-v>": '',
+\   'c' : 'COMMAND',
+\   's' : 'SELECT',
+\   'S' : 'S-LINE',
+\   "\<C-s>": 'S-BLOCK',
+\   't': 'TERMINAL',
+\ }
+\ }
 
-let g:airline#extensions#whitespace#enabled = 0              " Disable whitespace errors
+function! LightlineLinterWarnings() abort
+  let l:problems = ale#engine#GetLoclist(bufnr(''))
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:all_non_errors == 0 ? '' : printf('W%d:L%d', all_non_errors, problems[0].lnum)
+endfunction
 
-" Show compact mode indicators
-let g:airline_mode_map = {
-    \ '__' : '-',
-    \ 'n'  : 'N',
-    \ 'i'  : 'I',
-    \ 'R'  : 'R',
-    \ 'c'  : 'C',
-    \ 'v'  : 'V',
-    \ 'V'  : 'V',
-    \ '' : 'V',
-    \ 's'  : 'S',
-    \ 'S'  : 'S',
-    \ '' : 'S',
-    \ }
+function! LightlineLinterErrors() abort
+  let l:problems = ale#engine#GetLoclist(bufnr(''))
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:all_errors = l:counts.error + l:counts.style_error
+  let l:all_non_errors = l:counts.total - l:all_errors
+  return l:all_errors == 0 ? '' : printf('E%d:L%d', all_errors, problems[0].lnum)
+endfunction
 
-let g:airline_section_z = '%3p%% %3l/%L:%3v'             " Compact line numbers
-let g:airline_theme='base16'
+" Update and show lightline but only if it's visible (e.g., not in Goyo)
+autocmd User ALELint call s:MaybeUpdateLightline()
+function! s:MaybeUpdateLightline()
+  if exists('#lightline')
+    call lightline#update()
+  end
+endfunction
 
 " ===============
 " NERD tree
@@ -200,24 +267,24 @@ let g:ale_linters = {
 \ 'ruby': ['rubocop', 'mri'],
 \}
 
-let g:ale_sign_error = "✗✗"
+let g:ale_sign_error = "××"
 let g:ale_sign_warning = "!!"
 
 let g:ale_lint_on_text_changed = "never" " only lint on file save
 
-let g:airline#extensions#ale#enabled = 1
+" let g:airline#extensions#ale#enabled = 1
 
 " ===============
 " CommandT
-let g:CommandTMaxHeight=20
-let g:CommandTAlwaysShowDotFiles=1 " show hidden files
+" let g:CommandTMaxHeight=20
+" let g:CommandTAlwaysShowDotFiles=1 " show hidden files
 
 " refresh command-t on \r
-map <Leader>r :CommandTFlush<CR>
+" map <Leader>r :CommandTFlush<CR>
 
 " Leader b for buffers list
-nnoremap <silent> <leader>b :CommandTMRU<CR>
-set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
+" nnoremap <silent> <leader>b :CommandTMRU<CR>
+" set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
 
 " enable esc for command-t in terminal
 " https://wincent.com/blog/tweaking-command-t-and-vim-for-use-in-the-terminal-and-tmux
@@ -226,29 +293,27 @@ set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
 " end
 
 " =============
-" CtrlP
-" map <Leader>r :CtrlPClearCache<CR>
-" map <Leader>t :CtrlP<CR>
-" let g:ctrlp_max_files=0
-" let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
+" " CtrlP
+map <Leader>r :CtrlPClearCache<CR>
+map <Leader>t :CtrlP<CR>
+let g:ctrlp_max_files=0
+let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
 " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" set wildignore+=*/tmp,*/node_modules
-
+set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
 
 " Hide status line for CtrlP
-" let g:ctrlp_buffer_func = {
-"   \ 'enter': 'Function_Name_1',
-"   \ 'exit':  'Function_Name_2',
-"   \ }
+let g:ctrlp_buffer_func = {
+  \ 'enter': 'Function_Name_1',
+  \ 'exit':  'Function_Name_2',
+  \ }
 "
-" func! Function_Name_1()
-"   set laststatus=0
-" endfunc
-"
-" func! Function_Name_2()
-"   set laststatus=2
-" endfunc
+func! Function_Name_1()
+  set laststatus=0
+endfunc
 
+func! Function_Name_2()
+  set laststatus=2
+endfunc
 
 " ===============
 " LustyJuggler
@@ -258,11 +323,11 @@ map <Leader>s :LustyJuggler<CR>
 " The Silver Searcher
 " https://github.com/mileszs/ack.vim
 " https://robots.thoughtbot.com/faster-grepping-in-vim
-if executable('ag')
-  let g:ackprg = 'ag --nogroup --nocolor --column'
-endif
+" if executable('ag')
+  " let g:ackprg = 'ag --nogroup --nocolor --column'
+" endif
 " command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-nnoremap <Leader>f :Ack!<Space>
+" nnoremap <Leader>f :Ack!<Space>
 
 
 " =============
@@ -303,11 +368,12 @@ set smartcase                   " ... unless they contain at least one capital l
 set wrap                        " Wrap by default
 
 " Folding
-set foldenable                  " enable folding " space open/closes folds
-set foldlevelstart=99
-set foldnestmax=10
-nnoremap <space> za
-set foldmethod=indent
+" enable folding " space open/closes folds
+" set foldenable
+" set foldlevelstart=99
+" set foldnestmax=10
+" nnoremap <space> za
+" set foldmethod=indent
 
 " Navigation on wrapped lines
 nmap <silent> j gj
@@ -403,3 +469,9 @@ set synmaxcol=300
 
 " Enable mouse in terminal
 " set mouse=a
+
+" Trying to make vim faster
+" https://vi.stackexchange.com/questions/10495/most-annoying-slow-down-of-a-plain-text-editor
+set regexpengine=1
+set ttyfast
+set lazyredraw

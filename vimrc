@@ -167,7 +167,7 @@ let g:lightline = {
 \   'right': [ ]
 \ },
 \ 'component': {
-\   'lineinfo': '%3p%% %3l/%L:%3v',
+\   'lineinfo': '%3l/%L:%v',
 \   'relativepath': '%f%{&modified?" 💾":""}'
 \ },
 \ 'component_expand': {
@@ -284,7 +284,7 @@ let g:ale_lint_on_text_changed = "never" " only lint on file save
 
 " Leader b for buffers list
 " nnoremap <silent> <leader>b :CommandTMRU<CR>
-" set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
+" set wildignore+=*/tmp,*/node_modules,.DS_Store
 
 " enable esc for command-t in terminal
 " https://wincent.com/blog/tweaking-command-t-and-vim-for-use-in-the-terminal-and-tmux
@@ -299,7 +299,9 @@ map <Leader>t :CtrlP<CR>
 let g:ctrlp_max_files=0
 let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
 " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-set wildignore+=*/tmp,*/node_modules,*/static.crane,.DS_Store
+set wildignore+=*/tmp,*/node_modules,.DS_Store
+
+let g:ctrlp_show_hidden = 1
 
 " Hide status line for CtrlP
 let g:ctrlp_buffer_func = {
@@ -323,11 +325,11 @@ map <Leader>s :LustyJuggler<CR>
 " The Silver Searcher
 " https://github.com/mileszs/ack.vim
 " https://robots.thoughtbot.com/faster-grepping-in-vim
-" if executable('ag')
-  " let g:ackprg = 'ag --nogroup --nocolor --column'
-" endif
+if executable('ag')
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
 " command -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-" nnoremap <Leader>f :Ack!<Space>
+nnoremap <Leader>f :Ack!<Space>
 
 
 " =============
@@ -475,3 +477,11 @@ set synmaxcol=300
 set regexpengine=1
 set ttyfast
 set lazyredraw
+
+" Disable {visual}u lowercase. Always hit it by accident.
+vmap u <Nop>
+
+" Now load specifics to this host
+if filereadable(expand("~/.vimlocal"))
+  source ~/.vimlocal
+endif

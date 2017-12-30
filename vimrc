@@ -61,9 +61,10 @@ call vundle#begin()
   Plugin 'tpope/vim-rails'
 
   " Color Scheme
-  Plugin 'altercation/vim-colors-solarized'
+  " Plugin 'altercation/vim-colors-solarized'
   " Plugin 'kristijanhusak/vim-hybrid-material'
   " Plugin 'nightsense/vim-crunchbang'
+  Plugin 'lifepillar/vim-solarized8'
 
   " Pretty status line
   " Plugin 'vim-airline/vim-airline'
@@ -88,6 +89,15 @@ call vundle#begin()
 
   " Toggle loclist and quickfix by \l and \q
   Plugin 'Valloric/ListToggle'
+
+  " Autoclose ( [ { ' ` "
+  Plugin 'jiangmiao/auto-pairs'
+
+  " Autoclose html tags
+  Plugin 'alvan/vim-closetag'
+
+  " Show matching tags
+  Plugin 'Valloric/MatchTagAlways'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -200,9 +210,6 @@ let g:lightline = {
 \ }
 \ }
 
-" let g:NERDTreeDirArrowExpandable = '📁'
-" let g:NERDTreeDirArrowCollapsible = '📂'
-
 function! LightlineLinterWarnings() abort
   let l:problems = ale#engine#GetLoclist(bufnr(''))
   let l:counts = ale#statusline#Count(bufnr(''))
@@ -234,9 +241,12 @@ map <Leader>z :NERDTreeFind<CR>
 let NERDTreeMinimalUI=1
 let NERDTreeQuitOnOpen=1
 let g:NERDTreeWinPos="right"
-set guioptions-=L
+let NERDTreeHighlightCursorline=0
+" let g:NERDTreeDirArrowExpandable = ' '
+" let g:NERDTreeDirArrowCollapsible = '▼'
+
 " autocmd VimEnter * NERDTree
-" 
+
 " How can I close vim if the only window left open is a NERDTree? 
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -247,6 +257,9 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 " How can I open a NERDTree automatically when vim starts up if no files were specified?
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" Remove right scrollbar
+set guioptions-=L
 
 " ===============
 " ZoomWin
@@ -277,7 +290,7 @@ let g:ale_linters = {
 \ 'ruby': ['rubocop', 'mri'],
 \}
 
-let g:ale_sign_error = "××"
+let g:ale_sign_error = "🚫"
 let g:ale_sign_warning = "!!"
 
 let g:ale_lint_on_text_changed = "never" " only lint on file save
@@ -511,3 +524,22 @@ if has("gui_running")
   set lines=999 columns=9999
   " set fu
 end
+
+" Use closetag on all filenames
+let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.js,*.jsx,*.erb,*.html.erb'
+
+" MatchTagAlways filenames
+let g:mta_filetypes = {
+\ 'html' : 1,
+\ 'xhtml' : 1,
+\ 'xml' : 1,
+\ 'javascript.js' : 1,
+\ 'javascript.jsx' : 1,
+\ 'js' : 1,
+\ 'erb' : 1,
+\ 'html.erb' : 1
+\ }
+
+" Auto pairs
+let g:AutoPairsFlyMode = 1
+let g:AutoPairsShortcutBackInsert = '<C-b>'

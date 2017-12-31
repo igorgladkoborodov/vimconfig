@@ -26,9 +26,7 @@ call vundle#begin()
 
   " Find files on leader t
   " https://github.com/wincent/command-t/blob/master/doc/command-t.txt
-  " Plugin 'wincent/command-t'
-
-  Plugin 'ctrlpvim/ctrlp.vim'
+  Plugin 'wincent/command-t'
 
   " Buffer navigation
   Plugin 'sjbach/lusty'
@@ -240,7 +238,7 @@ map <Leader>a :NERDTreeToggle<CR>
 map <Leader>z :NERDTreeFind<CR>
 let NERDTreeMinimalUI=1
 let NERDTreeQuitOnOpen=1
-let g:NERDTreeWinPos="right"
+" let g:NERDTreeWinPos="right"
 let NERDTreeHighlightCursorline=0
 " let g:NERDTreeDirArrowExpandable = ' '
 " let g:NERDTreeDirArrowCollapsible = '▼'
@@ -299,46 +297,52 @@ let g:ale_lint_on_text_changed = "never" " only lint on file save
 
 " ===============
 " CommandT
-" let g:CommandTMaxHeight=20
-" let g:CommandTAlwaysShowDotFiles=1 " show hidden files
+let g:CommandTMaxHeight=20
+let g:CommandTAlwaysShowDotFiles=1 " show hidden files
 
 " refresh command-t on \r
-" map <Leader>r :CommandTFlush<CR>
+map <Leader>r :CommandTFlush<CR>
 
 " Leader b for buffers list
-" nnoremap <silent> <leader>b :CommandTMRU<CR>
-" set wildignore+=*/tmp,*/node_modules,.DS_Store
+nnoremap <silent> <leader>b :CommandTMRU<CR>
+set wildignore+=*/tmp,*/node_modules,.DS_Store,*/.bundle
+
+" Disable 'smart goto' https://github.com/wincent/command-t/blob/master/doc/command-t.txt#L617
+let g:CommandTAcceptSelectionTabCommand = 'tabe'
+let g:CommandTAcceptSelectionSplitCommand = 'sp'
+let g:CommandTAcceptSelectionVSplitCommand = 'vs'
+let g:CommandTAcceptSelectionCommand = 'e'
 
 " enable esc for command-t in terminal
 " https://wincent.com/blog/tweaking-command-t-and-vim-for-use-in-the-terminal-and-tmux
-" if &term =~ "xterm" || &term =~ "screen"
-"   let g:CommandTCancelMap = ['<ESC>', '<C-c>']
-" end
+if &term =~ "xterm" || &term =~ "screen"
+  let g:CommandTCancelMap = ['<ESC>', '<C-c>']
+end
 
 " =============
 " " CtrlP
-map <Leader>r :CtrlPClearCache<CR>
-map <Leader>t :CtrlP<CR>
-let g:ctrlp_max_files=0
-let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
-" let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-set wildignore+=*/tmp,*/node_modules,.DS_Store
-
-let g:ctrlp_show_hidden = 1
-
-" Hide status line for CtrlP
-let g:ctrlp_buffer_func = {
-  \ 'enter': 'Function_Name_1',
-  \ 'exit':  'Function_Name_2',
-  \ }
+" map <Leader>r :CtrlPClearCache<CR>
+" map <Leader>t :CtrlP<CR>
+" let g:ctrlp_max_files=0
+" let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
+" " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+" set wildignore+=*/tmp,*/node_modules,.DS_Store,*/.bundle
 "
-func! Function_Name_1()
-  set laststatus=0
-endfunc
-
-func! Function_Name_2()
-  set laststatus=2
-endfunc
+" let g:ctrlp_show_hidden = 1
+"
+" " Hide status line for CtrlP
+" let g:ctrlp_buffer_func = {
+"   \ 'enter': 'Function_Name_1',
+"   \ 'exit':  'Function_Name_2',
+"   \ }
+" "
+" func! Function_Name_1()
+"   set laststatus=0
+" endfunc
+"
+" func! Function_Name_2()
+"   set laststatus=2
+" endfunc
 
 " ===============
 " LustyJuggler
@@ -529,17 +533,20 @@ end
 let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.js,*.jsx,*.erb,*.html.erb'
 
 " MatchTagAlways filenames
+" :set ft? to get filetype
 let g:mta_filetypes = {
 \ 'html' : 1,
 \ 'xhtml' : 1,
 \ 'xml' : 1,
 \ 'javascript.js' : 1,
 \ 'javascript.jsx' : 1,
-\ 'js' : 1,
-\ 'erb' : 1,
-\ 'html.erb' : 1
+\ 'eruby' : 1
 \ }
+let g:mta_use_matchparen_group=0
+let g:mta_set_default_matchtag_color=0
 
 " Auto pairs
 let g:AutoPairsFlyMode = 1
 let g:AutoPairsShortcutBackInsert = '<C-b>'
+
+source $VIMRUNTIME/macros/matchit.vim

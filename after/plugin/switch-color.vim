@@ -27,16 +27,20 @@ function ToggleColors()
     set background=dark
     colorscheme solarized8
     call ToggleFontTo(3)
-    hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#ff2600  gui=none
-    hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#FFCC01  gui=none
+    hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#ff2600  guibg=#073642  gui=none
+    hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#FFCC01  guibg=#073642  gui=none
     hi CursorLine ctermfg=NONE ctermbg=236 guifg=NONE guibg=#073642 guisp=#93a1a1 cterm=NONE gui=NONE
+    hi MatchParen ctermfg=230 ctermbg=160 guifg=#fdf6e3 guibg=#dc322f guisp=NONE cterm=NONE gui=NONE
+    hi clear MatchTag
   elseif g:colors_variant == 1
     set background=light
     colorscheme solarized8
     call ToggleFontTo(2)
-    hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  gui=none
-    hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  gui=none
+    hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  guibg=#eee8d5  gui=none
+    hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=none
     hi CursorLine ctermfg=NONE ctermbg=254 guifg=NONE guibg=#eee8d5 guisp=#586e75 cterm=NONE gui=NONE
+    hi MatchParen ctermfg=230 ctermbg=32 guifg=#fdf6e3 guibg=#268bd2 guisp=NONE cterm=NONE gui=NONE
+    hi clear MatchTag
   endif
 
   " Make lightline switch light/dark background

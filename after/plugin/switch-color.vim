@@ -1,6 +1,5 @@
 function ToggleFont()
   let g:font_variant = exists('g:font_variant') ? (g:font_variant + 1)%4 : 0
-
   if g:font_variant == 0
     set guifont=Monaco:h12
     set linespace=-1

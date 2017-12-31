@@ -111,50 +111,10 @@ let g:ycm_complete_in_comments = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 " let g:ycm_collect_identifiers_from_tags_files = 1
 
-" function ToggleYouCompleteMeDir()
-"   if g:ycm_filepath_completion_use_working_dir == 0
-"     let g:ycm_filepath_completion_use_working_dir = 1
-"   else
-"     let g:ycm_filepath_completion_use_working_dir = 0
-"   endif
-" endfunction
-"
-" map <Leader>/ :call ToggleYouCompleteMeDir()<CR>
-"
 
-" ============
-" Airline
-" let g:airline#extensions#default#layout = [ [ 'a', 'b', 'c' ], [ 'z', 'error', 'warning' ] ]
-" let g:airline#extensions#hunks#enabled = 0
-"
-" let g:airline#extensions#tabline#enabled = 0                 " Enable tabline
-" let g:airline#extensions#tabline#enabled = 1                 " Enable tabline
-" let g:airline#extensions#tabline#show_tab_nr = 1             " Show tab number in tabs mode
-" let g:airline#extensions#tabline#tab_nr_type = 1             " Only show tab number
-" let g:airline#extensions#tabline#fnamemod = ':t'
-" let g:airline#extensions#tabline#show_buffers = 0            " Don't show buffers with single tab
-"
-" let g:airline#extensions#whitespace#enabled = 0              " Disable whitespace errors
-"
-" " Show compact mode indicators
-" let g:airline_mode_map = {
-"     \ '__' : '-',
-"     \ 'n'  : 'N',
-"     \ 'i'  : 'I',
-"     \ 'R'  : 'R',
-"     \ 'c'  : 'C',
-"     \ 'v'  : 'V',
-"     \ 'V'  : 'V',
-"     \ '' : 'V',
-"     \ 's'  : 'S',
-"     \ 'S'  : 'S',
-"     \ '' : 'S',
-"     \ }
-"
-" let g:airline_section_z = '%3p%% %3l/%L:%3v'             " Compact line numbers
-" let g:airline_theme='base16'
+" ===============
+" Lightline
 
-" \   'lineinfo': '%l/%L:%v',
 set background=light
 let g:lightline = {
 \ 'colorscheme': 'solarized',
@@ -250,9 +210,14 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Remove right scrollbar
 set guioptions-=L
 
+
 " ===============
 " ZoomWin
 map <Leader><Leader> :ZoomWin<CR>
+
+
+" ===============
+" ALE
 
 let g:ale_linters = {
 \ 'javascript': ['eslint', 'flow'],
@@ -275,7 +240,7 @@ let g:CommandTAlwaysShowDotFiles=1 " show hidden files
 map <Leader>r :CommandTFlush<CR>
 
 " Leader b for buffers list
-nnoremap <silent> <leader>b :CommandTMRU<CR>
+" nnoremap <silent> <leader>b :CommandTMRU<CR>
 set wildignore+=*/tmp,*/node_modules,.DS_Store,*/.bundle
 
 " Disable 'smart goto' https://github.com/wincent/command-t/blob/master/doc/command-t.txt#L617
@@ -290,9 +255,13 @@ if &term =~ "xterm" || &term =~ "screen"
   let g:CommandTCancelMap = ['<ESC>', '<C-c>']
 end
 
+
 " ===============
 " LustyJuggler
 map <Leader>s :LustyJuggler<CR>
+map <Leader>b :LustyBufferExplorer<CR>
+map <Leader>e :LustyFilesystemExplorerFromHere<CR>
+
 
 " ===============
 " The Silver Searcher
@@ -313,6 +282,33 @@ let g:jsx_ext_required = 0    " Allow JSX in normal JS files
 " toggle gundo
 nnoremap `u :GundoToggle<CR>
 nnoremap <Leader>u :GundoToggle<CR>
+
+
+" ===========
+" Closetag
+" Use closetag on all filenames
+let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.js,*.jsx,*.erb,*.html.erb'
+
+" ============================
+" MatchTagAlways
+" :set ft? to get filetype
+let g:mta_filetypes = {
+\ 'html' : 1,
+\ 'xhtml' : 1,
+\ 'xml' : 1,
+\ 'javascript.js' : 1,
+\ 'javascript.jsx' : 1,
+\ 'eruby' : 1
+\ }
+
+" Don't hightlight it
+let g:mta_use_matchparen_group=0
+let g:mta_set_default_matchtag_color=0
+
+" ====================
+" Auto pairs
+let g:AutoPairsFlyMode = 1
+let g:AutoPairsShortcutBackInsert = '<C-b>'
 
 
 " ================= GENERAL SETTINGS ===================
@@ -372,6 +368,7 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+
 " ============================
 " Navigating tabs
 
@@ -401,12 +398,6 @@ map ’ :tabm +1<CR>
 " map <leader>[ :tabm -1<CR>              " Move tab left
 " map <leader>] :tabm +1<CR>              " Move tab right
 
-
-" =======================
-" lusty explorer
-"let g:LustyExplorerSuppressRubyWarning = ""
-"nnoremap <silent> <D-u> :LustyBufferExplorer<CR>
-"nnoremap <silent> <D-i> :LustyFilesystemExplorerFromHere<CR>
 
 set scrolloff=5
 
@@ -474,25 +465,5 @@ if has("gui_running")
   set lines=999 columns=9999
   " set fu
 end
-
-" Use closetag on all filenames
-let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.js,*.jsx,*.erb,*.html.erb'
-
-" MatchTagAlways filenames
-" :set ft? to get filetype
-let g:mta_filetypes = {
-\ 'html' : 1,
-\ 'xhtml' : 1,
-\ 'xml' : 1,
-\ 'javascript.js' : 1,
-\ 'javascript.jsx' : 1,
-\ 'eruby' : 1
-\ }
-let g:mta_use_matchparen_group=0
-let g:mta_set_default_matchtag_color=0
-
-" Auto pairs
-let g:AutoPairsFlyMode = 1
-let g:AutoPairsShortcutBackInsert = '<C-b>'
 
 source $VIMRUNTIME/macros/matchit.vim

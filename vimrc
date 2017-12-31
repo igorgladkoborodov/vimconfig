@@ -40,9 +40,6 @@ call vundle#begin()
   " Git diff after save
   Plugin 'airblade/vim-gitgutter'
 
-  " Autocomplete on tab
-  " Plugin 'ervandew/supertab'
-
   " Autocomplete
   " https://github.com/Valloric/YouCompleteMe/#mac-os-x
   Plugin 'Valloric/YouCompleteMe'
@@ -59,18 +56,12 @@ call vundle#begin()
   Plugin 'tpope/vim-rails'
 
   " Color Scheme
-  " Plugin 'altercation/vim-colors-solarized'
-  " Plugin 'kristijanhusak/vim-hybrid-material'
-  " Plugin 'nightsense/vim-crunchbang'
   Plugin 'lifepillar/vim-solarized8'
 
   " Pretty status line
-  " Plugin 'vim-airline/vim-airline'
-  " Plugin 'vim-airline/vim-airline-themes'
   Plugin 'itchyny/lightline.vim'
 
   " Check syntacs
-   " Plugin 'vim-syntastic/syntastic'
   Plugin 'w0rp/ale'
 
   " Working with pair symbols
@@ -263,26 +254,6 @@ set guioptions-=L
 " ZoomWin
 map <Leader><Leader> :ZoomWin<CR>
 
-" ===============
-"Syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-"
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 0
-" let g:syntastic_check_on_wq = 0
-"
-" let g:syntastic_error_symbol = "✗✗"
-" let syntastic_style_error_symbol = "✗✗"
-" let g:syntastic_warning_symbol = "!!"
-" let syntastic_style_warning_symbol = "!!"
-"
-" let g:syntastic_javascript_checkers = ['eslint']
-" let g:syntastic_ruby_checkers = ['rubocop', 'mri']
-"
-
 let g:ale_linters = {
 \ 'javascript': ['eslint', 'flow'],
 \ 'ruby': ['rubocop', 'mri'],
@@ -318,31 +289,6 @@ let g:CommandTAcceptSelectionCommand = 'e'
 if &term =~ "xterm" || &term =~ "screen"
   let g:CommandTCancelMap = ['<ESC>', '<C-c>']
 end
-
-" =============
-" " CtrlP
-" map <Leader>r :CtrlPClearCache<CR>
-" map <Leader>t :CtrlP<CR>
-" let g:ctrlp_max_files=0
-" let g:ctrlp_switch_buffer = 'et' " Open file in current pane instead of already opened one
-" " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-" set wildignore+=*/tmp,*/node_modules,.DS_Store,*/.bundle
-"
-" let g:ctrlp_show_hidden = 1
-"
-" " Hide status line for CtrlP
-" let g:ctrlp_buffer_func = {
-"   \ 'enter': 'Function_Name_1',
-"   \ 'exit':  'Function_Name_2',
-"   \ }
-" "
-" func! Function_Name_1()
-"   set laststatus=0
-" endfunc
-"
-" func! Function_Name_2()
-"   set laststatus=2
-" endfunc
 
 " ===============
 " LustyJuggler

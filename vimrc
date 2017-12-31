@@ -88,6 +88,8 @@ call vundle#begin()
   " Show matching tags
   Plugin 'Valloric/MatchTagAlways'
 
+  Plugin 'terryma/vim-multiple-cursors'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -102,7 +104,13 @@ filetype plugin indent on    " required
 
 " ====================== PLUGINS SETTINGS =================
 " ===============
-"
+
+" =================
+" Multicursor
+let g:multi_cursor_exit_from_visual_mode = 0
+let g:multi_cursor_exit_from_insert_mode = 0
+
+
 " ===============
 " YouCompleteMe
 set completeopt-=preview
@@ -307,8 +315,8 @@ let g:mta_set_default_matchtag_color=0
 
 " ====================
 " Auto pairs
-let g:AutoPairsFlyMode = 1
-let g:AutoPairsShortcutBackInsert = '<C-b>'
+" let g:AutoPairsFlyMode = 1
+" let g:AutoPairsShortcutBackInsert = '<C-b>'
 
 
 " ================= GENERAL SETTINGS ===================

@@ -80,7 +80,7 @@ call vundle#begin()
   Plugin 'Valloric/ListToggle'
 
   " Autoclose ( [ { ' ` "
-  Plugin 'jiangmiao/auto-pairs'
+  Plugin 'Raimondi/delimitMate'
 
   " Autoclose html tags
   Plugin 'alvan/vim-closetag'
@@ -314,10 +314,11 @@ let g:mta_use_matchparen_group=0
 let g:mta_set_default_matchtag_color=0
 
 " ====================
-" Auto pairs
-" let g:AutoPairsFlyMode = 1
-" let g:AutoPairsShortcutBackInsert = '<C-b>'
-
+" Auto close pairs
+let delimitMate_jump_expansion = 0
+let delimitMate_expand_cr = 2
+let delimitMate_expand_space = 1
+let delimitMate_balance_matchpairs = 0
 
 " ================= GENERAL SETTINGS ===================
 language en_US                " sets the language of the messages / ui (vim)

@@ -19,13 +19,11 @@ call vundle#begin()
 
   " Double leader to zoom
   Plugin 'drn/zoomwin-vim'
-  " regedarek/ZoomWin
 
   " Leader f for search
   Plugin 'mileszs/ack.vim'
 
   " Find files on leader t
-  " https://github.com/wincent/command-t/blob/master/doc/command-t.txt
   Plugin 'wincent/command-t'
 
   " Buffer navigation
@@ -44,14 +42,11 @@ call vundle#begin()
   " https://github.com/Valloric/YouCompleteMe/#mac-os-x
   Plugin 'Valloric/YouCompleteMe'
 
-  " Javascript & JSX syntax
+  " Syntax
   Plugin 'pangloss/vim-javascript'
   Plugin 'mxw/vim-jsx'
-
-  " Coffescript syntax
-  Plugin 'kchmck/vim-coffee-script'
-
-  " Ruby
+  Plugin 'digitaltoad/vim-pug'
+  Plugin 'wavded/vim-stylus'
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'tpope/vim-rails'
 
@@ -78,15 +73,6 @@ call vundle#begin()
 
   " Toggle loclist and quickfix by \l and \q
   Plugin 'Valloric/ListToggle'
-
-  " Autoclose ( [ { ' ` "
-  Plugin 'Raimondi/delimitMate'
-
-  " Autoclose html tags
-  Plugin 'alvan/vim-closetag'
-
-  " Show matching tags
-  Plugin 'Valloric/MatchTagAlways'
 
   Plugin 'terryma/vim-multiple-cursors'
 
@@ -123,7 +109,7 @@ let g:ycm_collect_identifiers_from_comments_and_strings = 1
 " ===============
 " Lightline
 
-set background=light
+set background=dark
 let g:lightline = {
 \ 'colorscheme': 'solarized',
 \ 'active': {
@@ -140,7 +126,7 @@ let g:lightline = {
 \ },
 \ 'component': {
 \   'lineinfo': '%2l/%L %2v',
-\   'relativepath': '%f%{&modified?" 💾":""}',
+\   'relativepath': '%f%{&modified?" *":""}',
 \   'pwd': systemlist('dirs')[0]
 \ },
 \ 'component_expand': {
@@ -195,12 +181,10 @@ endfunction
 " NERD tree
 map <Leader>a :NERDTreeToggle<CR>
 map <Leader>z :NERDTreeFind<CR>
-let NERDTreeMinimalUI=1
-let NERDTreeQuitOnOpen=1
-" let g:NERDTreeWinPos="right"
-let NERDTreeHighlightCursorline=0
-" let g:NERDTreeDirArrowExpandable = ' '
-" let g:NERDTreeDirArrowCollapsible = '▼'
+let g:NERDTreeMinimalUI=1
+let g:NERDTreeQuitOnOpen=1
+let g:NERDTreeNoSwitchTabs=1
+let g:NERDTreeHighlightCursorline=0
 
 " autocmd VimEnter * NERDTree
 
@@ -218,11 +202,9 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " Remove right scrollbar
 set guioptions-=L
 
-
 " ===============
 " ZoomWin
 map <Leader><Leader> :ZoomWin<CR>
-
 
 " ===============
 " ALE
@@ -232,8 +214,8 @@ let g:ale_linters = {
 \ 'ruby': ['rubocop', 'mri'],
 \}
 
-let g:ale_sign_error = "🚫"
-let g:ale_sign_warning = "!!"
+let g:ale_sign_error = " ●"
+let g:ale_sign_warning = " ●"
 
 let g:ale_lint_on_text_changed = "never" " only lint on file save
 
@@ -263,7 +245,6 @@ if &term =~ "xterm" || &term =~ "screen"
   let g:CommandTCancelMap = ['<ESC>', '<C-c>']
 end
 
-
 " ===============
 " LustyJuggler
 map <Leader>s :LustyJuggler<CR>
@@ -290,35 +271,6 @@ let g:jsx_ext_required = 0    " Allow JSX in normal JS files
 " toggle gundo
 nnoremap `u :GundoToggle<CR>
 nnoremap <Leader>u :GundoToggle<CR>
-
-
-" ===========
-" Closetag
-" Use closetag on all filenames
-let g:closetag_filenames = '*.html,*.xhtml,*.xml,*.js,*.jsx,*.erb,*.html.erb'
-
-" ============================
-" MatchTagAlways
-" :set ft? to get filetype
-let g:mta_filetypes = {
-\ 'html' : 1,
-\ 'xhtml' : 1,
-\ 'xml' : 1,
-\ 'javascript.js' : 1,
-\ 'javascript.jsx' : 1,
-\ 'eruby' : 1
-\ }
-
-" Don't hightlight it
-let g:mta_use_matchparen_group=0
-let g:mta_set_default_matchtag_color=0
-
-" ====================
-" Auto close pairs
-let delimitMate_jump_expansion = 0
-let delimitMate_expand_cr = 2
-let delimitMate_expand_space = 1
-let delimitMate_balance_matchpairs = 0
 
 " ================= GENERAL SETTINGS ===================
 language en_US                " sets the language of the messages / ui (vim)
@@ -348,19 +300,15 @@ set smartcase                   " ... unless they contain at least one capital l
 
 set wrap                        " Wrap by default
 
-" Folding
-" enable folding " space open/closes folds
-" set foldenable
-" set foldlevelstart=99
-" set foldnestmax=10
-" nnoremap <space> za
-" set foldmethod=indent
-
 " Navigation on wrapped lines
 nmap <silent> j gj
 nmap <silent> k gk
 
 set hidden                      " Don't require to save buffer on switch
+
+" http://vimhelp.appspot.com/options.txt.html#%27switchbuf%27
+" Don't switch to opened file
+set switchbuf=
 
 " History size
 set history=5000
@@ -415,9 +363,6 @@ set scrolloff=5
 set list
 set listchars=eol:¬,tab:→\ ,nbsp:_,precedes:(,extends:),trail:·
 
-" Set .as for Actionscript
-autocmd BufNewFile,BufRead *.as set filetype=actionscript
-
 set number
 
 " ===================
@@ -425,10 +370,6 @@ set number
 " pressing < or > will let you iunident selected lines
 vnoremap < <gv
 vnoremap > >gv
-
-" =========
-" Show cursor line
-map <Leader>c :set cursorline!<CR>:set cursorcolumn!<CR>
 
 " ===========
 " Copy current filename to clipboard by `i
@@ -442,7 +383,7 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 set guioptions=
 
 " Limit syntax for long lines to increase speed
-set synmaxcol=300
+set synmaxcol=200
 
 " Enable mouse in terminal
 " set mouse=a
@@ -456,18 +397,30 @@ set lazyredraw
 " Disable {visual}u lowercase. Always hit it by accident.
 vmap u <Nop>
 
-" Now load specifics to this host
-if filereadable(expand("~/.vimlocal"))
-  source ~/.vimlocal
-endif
-
 " Make gf work for node custom root
 set path+=$PWD/**3
 
-" P in visual mode paste last yanked register
-vmap P "0p
-" `y moves last saved register to register 0 to use it with P on visual mode
+" Paste in visual mode don't replace current buffer
+vnoremap p "_dp
+
+" `y moves last saved register to yank register 0
 map `y :let @0=@"<CR>
+" `p in paste yanked register
+map `p "0p
+" map `b :call RotateBuffers()<CR>
+"
+" function RotateBuffers()
+"   let @"=@1
+"   let @1=@2
+"   let @2=@3
+"   let @3=@4
+"   let @4=@5
+"   let @5=@6
+"   let @6=@7
+"   let @7=@8
+"   let @8=@9
+"   echom @"
+" endfunction
 
 " Open vim in max width
 if has("gui_running")
@@ -475,4 +428,11 @@ if has("gui_running")
   " set fu
 end
 
+" Match tags by %
 source $VIMRUNTIME/macros/matchit.vim
+
+" Load specifics to this host
+if filereadable(expand("~/.vimlocal"))
+  source ~/.vimlocal
+endif
+

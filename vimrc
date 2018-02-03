@@ -126,7 +126,7 @@ let g:lightline = {
 \ },
 \ 'component': {
 \   'lineinfo': '%2l/%L %2v',
-\   'relativepath': '%f%{&modified?" *":""}',
+\   'relativepath': '%f%{&modified?" +":""}',
 \   'pwd': systemlist('dirs')[0]
 \ },
 \ 'component_expand': {
@@ -214,8 +214,8 @@ let g:ale_linters = {
 \ 'ruby': ['rubocop', 'mri'],
 \}
 
-let g:ale_sign_error = " ●"
-let g:ale_sign_warning = " ●"
+let g:ale_sign_error = "XX"
+let g:ale_sign_warning = "!!"
 
 let g:ale_lint_on_text_changed = "never" " only lint on file save
 
@@ -401,7 +401,7 @@ vmap u <Nop>
 set path+=$PWD/**3
 
 " Paste in visual mode don't replace current buffer
-vnoremap p "_dp
+" vnoremap p "_dp
 
 " `y moves last saved register to yank register 0
 map `y :let @0=@"<CR>
@@ -430,6 +430,10 @@ end
 
 " Match tags by %
 source $VIMRUNTIME/macros/matchit.vim
+
+" Don't jump on search word
+nnoremap * *``
+nnoremap # #``
 
 " Load specifics to this host
 if filereadable(expand("~/.vimlocal"))

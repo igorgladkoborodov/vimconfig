@@ -24,7 +24,7 @@ function ToggleColors()
   let g:colors_variant = exists('g:colors_variant') ? (g:colors_variant + 1)%2 : 0
   if g:colors_variant == 0
     set background=dark
-    colorscheme solarized8
+    colorscheme solarized8_high
     call ToggleFontTo(3)
     hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#ff2600  guibg=#073642  gui=NONE
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#FFCC01  guibg=#073642  gui=NONE
@@ -33,7 +33,7 @@ function ToggleColors()
     hi clear MatchTag
   elseif g:colors_variant == 1
     set background=light
-    colorscheme solarized8
+    colorscheme solarized8_high
     call ToggleFontTo(2)
     hi ALEErrorSign ctermfg=10  ctermbg=0  guifg=#c34915  guibg=#eee8d5  gui=NONE
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=NONE
@@ -47,8 +47,6 @@ function ToggleColors()
   call lightline#init()
   call lightline#colorscheme()
   call lightline#update()
-
-  call SpellOff()
 
   call RemoveBoldItalic()
 
@@ -111,16 +109,9 @@ function ToggleSpell()
 endfunction
 
 " Solarized colors
-let g:enable_italic_font = 0
-let g:enable_bold_font = 0
-let g:solarized_italic=0
-let g:solarized_bold=0
-" let g:solarized_termcolors=16    "default value is 16
-let g:solarized_visibility="low"    "default value is normal
-let g:solarized_contrast="normal"
+let g:solarized_visibility="low"
+let g:solarized_contrast="high"
 let g:solarized_termtrans=1
-" let g:solarized_old_cursor_style=0
-" let g:solarized_statusline="low"
 
 if has("gui_running")
   call ToggleColorsTo(1)

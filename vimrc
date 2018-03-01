@@ -49,6 +49,7 @@ call vundle#begin()
   Plugin 'wavded/vim-stylus'
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'tpope/vim-rails'
+  Plugin 'leafgarland/typescript-vim'
 
   " Color Scheme
   Plugin 'lifepillar/vim-solarized8'
@@ -267,6 +268,10 @@ nnoremap <Leader>f :Ack!<Space>
 " JSX
 let g:jsx_ext_required = 0    " Allow JSX in normal JS files
 
+" =======
+" Javascript
+let g:javascript_plugin_flow = 1
+
 " =====================
 " toggle gundo
 nnoremap `u :GundoToggle<CR>
@@ -435,4 +440,3 @@ nnoremap # #``
 if filereadable(expand("~/.vimlocal"))
   source ~/.vimlocal
 endif
-

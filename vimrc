@@ -113,7 +113,7 @@ set background=dark
 let g:lightline = {
 \ 'colorscheme': 'solarized',
 \ 'active': {
-\   'left': [ [ 'mode', 'paste' ], ['relativepath'] ],
+\   'left': [ [ 'paste' ], ['relativepath'] ],
 \   'right': [ [ 'lineinfo' ], ['readonly', 'linter_warnings', 'linter_errors'] ]
 \ },
 \ 'inactive': {
@@ -145,7 +145,7 @@ let g:lightline = {
 \   'v' : '',
 \   'V' : '',
 \   "\<C-v>": '',
-\   'c' : 'COMMAND',
+\   'c' : '',
 \   's' : 'SELECT',
 \   'S' : 'S-LINE',
 \   "\<C-s>": 'S-BLOCK',
@@ -305,10 +305,6 @@ nmap <silent> j gj
 nmap <silent> k gk
 
 set hidden                      " Don't require to save buffer on switch
-
-" http://vimhelp.appspot.com/options.txt.html#%27switchbuf%27
-" Don't switch to opened file
-set switchbuf=
 
 " History size
 set history=5000

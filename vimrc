@@ -6,7 +6,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
   " Plugins manager
-  Plugin 'VundleVim/Vundle.vim'
+  " Plugin 'VundleVim/Vundle.vim'
 
   " Show tree on Leader a
   Plugin 'scrooloose/nerdtree'
@@ -46,7 +46,8 @@ call vundle#begin()
   Plugin 'pangloss/vim-javascript'
   Plugin 'mxw/vim-jsx'
   Plugin 'digitaltoad/vim-pug'
-  Plugin 'wavded/vim-stylus'
+  " Plugin 'wavded/vim-stylus'
+  Plugin 'igorgladkoborodov/vim-stylus'
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'tpope/vim-rails'
   Plugin 'leafgarland/typescript-vim'

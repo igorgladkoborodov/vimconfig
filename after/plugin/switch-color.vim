@@ -30,7 +30,7 @@ function ToggleColors()
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#FFCC01  guibg=#073642  gui=NONE
     hi CursorLine ctermfg=NONE ctermbg=236 guifg=NONE guibg=#073642 guisp=#93a1a1 cterm=NONE gui=NONE
     hi MatchParen ctermfg=230 ctermbg=160 guifg=#fdf6e3 guibg=#dc322f guisp=NONE cterm=NONE gui=NONE
-    hi clear MatchTag
+    hi Normal ctermfg=247 ctermbg=235 guifg=#93a1a1 guibg=#00232B guisp=NONE cterm=NONE gui=NONE
   elseif g:colors_variant == 1
     set background=light
     colorscheme solarized8_high
@@ -39,8 +39,9 @@ function ToggleColors()
     hi ALEWarningSign ctermfg=10  ctermbg=0  guifg=#b58901  guibg=#eee8d5  gui=NONE
     hi CursorLine ctermfg=NONE ctermbg=254 guifg=NONE guibg=#eee8d5 guisp=#586e75 cterm=NONE gui=NONE
     hi MatchParen ctermfg=230 ctermbg=32 guifg=#fdf6e3 guibg=#268bd2 guisp=NONE cterm=NONE gui=NONE
-    hi clear MatchTag
   endif
+
+  hi clear MatchTag
 
   " Make lightline switch light/dark background
   runtime autoload/lightline/colorscheme/solarized.vim
@@ -113,13 +114,12 @@ let g:solarized_visibility="low"
 let g:solarized_contrast="high"
 let g:solarized_termtrans=1
 
+call ToggleColorsTo(1)
+
 if has("gui_running")
-  call ToggleColorsTo(1)
   map <F5> :call ToggleFont()<CR>
   map <F6> :call ToggleColors()<CR>
   map <F7> :call ToggleSpell()<CR>
-else
-  call ToggleColorsTo(0)
 endif
 
 " Make ~ in the end less visible.

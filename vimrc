@@ -216,10 +216,18 @@ let g:ale_linters = {
 \ 'ruby': ['rubocop', 'mri'],
 \}
 
+let g:ale_fixers = {
+\ 'ruby': ['rubocop'],
+\ 'javascript': ['prettier', 'eslint'],
+\}
+
 let g:ale_sign_error = "XX"
 let g:ale_sign_warning = "!!"
 
 let g:ale_lint_on_text_changed = "never" " only lint on file save
+
+" Run ale fixer on `l
+nmap `l <Plug>(ale_fix)
 
 " let g:airline#extensions#ale#enabled = 1
 

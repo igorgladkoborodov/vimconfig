@@ -5,8 +5,8 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-  " Plugins manager
-  " Plugin 'VundleVim/Vundle.vim'
+  " let Vundle manage Vundle, required
+  Plugin 'VundleVim/Vundle.vim'
 
   " Show tree on Leader a
   Plugin 'scrooloose/nerdtree'
@@ -46,14 +46,14 @@ call vundle#begin()
   Plugin 'pangloss/vim-javascript'
   Plugin 'mxw/vim-jsx'
   Plugin 'digitaltoad/vim-pug'
-  " Plugin 'wavded/vim-stylus'
-  Plugin 'igorgladkoborodov/vim-stylus'
+  Plugin 'iloginow/vim-stylus'
   Plugin 'vim-ruby/vim-ruby'
   Plugin 'tpope/vim-rails'
   Plugin 'leafgarland/typescript-vim'
+  Plugin 'flowtype/vim-flow'
 
   " Color Scheme
-  Plugin 'lifepillar/vim-solarized8'
+  Plugin 'file://~/.vim/plugins/vim-solarized8'
 
   " Pretty status line
   Plugin 'itchyny/lightline.vim'
@@ -76,7 +76,7 @@ call vundle#begin()
   " Toggle loclist and quickfix by \l and \q
   Plugin 'Valloric/ListToggle'
 
-  Plugin 'terryma/vim-multiple-cursors'
+  " Plugin 'terryma/vim-multiple-cursors'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

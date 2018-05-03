@@ -1,103 +1,82 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-  " let Vundle manage Vundle, required
-  Plugin 'VundleVim/Vundle.vim'
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
 
   " Show tree on Leader a
-  Plugin 'scrooloose/nerdtree'
+  Plug 'scrooloose/nerdtree'
 
   " gc for comment
-  Plugin 'tomtom/tcomment_vim'
+  Plug 'tomtom/tcomment_vim'
 
   " Leader ig to show indent
-  Plugin 'nathanaelkane/vim-indent-guides'
+  Plug 'nathanaelkane/vim-indent-guides'
 
   " Double leader to zoom
-  Plugin 'drn/zoomwin-vim'
+  Plug 'drn/zoomwin-vim'
 
   " Leader f for search
-  Plugin 'mileszs/ack.vim'
+  Plug 'mileszs/ack.vim'
 
   " Find files on leader t
-  Plugin 'wincent/command-t'
+  Plug 'wincent/command-t'
 
   " Buffer navigation
-  Plugin 'sjbach/lusty'
+  Plug 'sjbach/lusty'
 
   " Fix copypaste
-  Plugin 'ConradIrwin/vim-bracketed-paste'
+  Plug 'ConradIrwin/vim-bracketed-paste'
 
   " File utils (:Rename, :Move, :Delete etc)
-  Plugin 'tpope/vim-eunuch'
+  Plug 'tpope/vim-eunuch'
 
   " Git diff after save
-  Plugin 'airblade/vim-gitgutter'
+  Plug 'airblade/vim-gitgutter'
 
   " Autocomplete
   " https://github.com/Valloric/YouCompleteMe/#mac-os-x
-  Plugin 'Valloric/YouCompleteMe'
+  Plug 'Valloric/YouCompleteMe'
 
   " Syntax
-  Plugin 'pangloss/vim-javascript'
-  Plugin 'mxw/vim-jsx'
-  Plugin 'digitaltoad/vim-pug'
-  Plugin 'iloginow/vim-stylus'
-  Plugin 'vim-ruby/vim-ruby'
-  Plugin 'tpope/vim-rails'
-  Plugin 'leafgarland/typescript-vim'
-  Plugin 'flowtype/vim-flow'
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
+  Plug 'digitaltoad/vim-pug'
+  Plug 'iloginow/vim-stylus'
+  Plug 'vim-ruby/vim-ruby'
+  Plug 'tpope/vim-rails'
+  Plug 'leafgarland/typescript-vim'
+  Plug 'flowtype/vim-flow'
 
   " Color Scheme
-  Plugin 'file://~/.vim/plugins/vim-solarized8'
+  Plug 'lifepillar/vim-solarized8', { 'branch': 'a534e726e55ce478875ffc19e39164ffacb83f8f' }
 
   " Pretty status line
-  Plugin 'itchyny/lightline.vim'
+  Plug 'itchyny/lightline.vim'
 
   " Check syntacs
-  Plugin 'w0rp/ale'
+  Plug 'w0rp/ale'
 
   " Working with pair symbols
-  Plugin 'tpope/vim-surround'
+  Plug 'tpope/vim-surround'
 
   " Make . (repeat) operator useful for plugins
-  Plugin 'tpope/vim-repeat.git'
+  Plug 'tpope/vim-repeat'
 
   " Show marks
-  Plugin 'kshenoy/vim-signature'
+  Plug 'kshenoy/vim-signature'
 
   " Graphical undo tree
-  Plugin 'sjl/gundo.vim'
+  Plug 'sjl/gundo.vim'
 
   " Toggle loclist and quickfix by \l and \q
-  Plugin 'Valloric/ListToggle'
+  Plug 'Valloric/ListToggle'
 
-  " Plugin 'terryma/vim-multiple-cursors'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+call plug#end()
 
 " ====================== PLUGINS SETTINGS =================
-" ===============
-
-" =================
-" Multicursor
-let g:multi_cursor_exit_from_visual_mode = 0
-let g:multi_cursor_exit_from_insert_mode = 0
-
 
 " ===============
 " YouCompleteMe

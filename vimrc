@@ -22,7 +22,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'mileszs/ack.vim'
 
   " Find files on leader t
-  Plug 'wincent/command-t'
+  Plug 'wincent/command-t', {
+  \   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
+  \ }
 
   " Buffer navigation
   Plug 'sjbach/lusty'
@@ -103,7 +105,7 @@ let g:lightline = {
 \ },
 \ 'tabline': {
 \   'left': [ [ 'tabs' ] ],
-\   'right': [ [ 'pwd', 'close' ] ]
+\   'right': [ [ 'time' ] ]
 \ },
 \ 'component': {
 \   'lineinfo': '%2l/%L %2v',
@@ -113,6 +115,7 @@ let g:lightline = {
 \ 'component_expand': {
 \   'linter_warnings': 'LightlineLinterWarnings',
 \   'linter_errors': 'LightlineLinterErrors',
+\   'time': 'LightlineTime',
 \ },
 \ 'component_type': {
 \   'readonly': 'error',
@@ -133,6 +136,10 @@ let g:lightline = {
 \   't': 'TERMINAL',
 \ }
 \ }
+
+function! LightlineTime() abort
+  return strftime('%I:%M')
+endfunction
 
 function! LightlineLinterWarnings() abort
   let l:problems = ale#engine#GetLoclist(bufnr(''))
